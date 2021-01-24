@@ -95,8 +95,8 @@ if (!function_exists('bluerex_setup')) :
         add_theme_support(
             'custom-logo',
             array(
-                'height' => 250,
-                'width' => 250,
+                'height' => 69,
+                'width' => 62,
                 'flex-width' => true,
                 'flex-height' => true,
             )

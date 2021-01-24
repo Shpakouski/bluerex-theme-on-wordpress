@@ -11,8 +11,12 @@
 <body>
 <header class="main-header">
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">
-            <img src="<?php bloginfo('template_url'); ?>/assets/img/logo.png" alt="BlueRex Company">BlueRex
+        <a class="navbar-brand" href="<?php echo home_url('/'); ?>">
+            <?php $custom_logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'));
+            if ($custom_logo): ?>
+                <img src="<?php echo $custom_logo[0]; ?>" alt="<?php bloginfo('name'); ?>">
+            <?php endif; ?>
+            <?php bloginfo('name'); ?>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
