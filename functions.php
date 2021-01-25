@@ -191,3 +191,13 @@ if (defined('JETPACK__VERSION')) {
     require get_template_directory() . '/inc/jetpack.php';
 }
 
+// Custom code
+function bluerex_get_background($field, $cat = null, $cover = true)
+{
+    if (get_field($field, $cat)) {
+        $add_style = $cover ? 'background-size: cover;' : '';
+        return ' style="background: url(' . get_field($field, $cat) . ') center no-repeat; ' . $add_style . '"';
+    }
+    return null;
+}
+
