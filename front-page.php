@@ -1,76 +1,91 @@
 <?php get_header( 'main' ); ?>
 
-    <section class="section-watch section-tabs">
+<?php
+$watch_cat = get_category( 3 );
+if ( $watch_cat ):
+	$posts = get_posts( [
+		'numberposts' => 3,
+		'category'    => $watch_cat->term_id,
+		'order'       => 'ASC',
+	] );
+	?>
+
+    <section
+            class="section-watch section-tabs"<?php echo bluerex_get_background( 'section_bg',
+		$watch_cat ); ?>>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 mb-5">
-                    <h3>Dream Big Inspire the World</h3>
-                    <h4>We turn creative ideas into your business</h4>
+					<?php if ( get_field( 'section_header', $watch_cat ) ): ?>
+                        <h3><?php the_field( 'section_header',
+								$watch_cat ); ?></h3>
+					<?php endif; ?>
+					<?php if ( $watch_cat->description ): ?>
+                        <h4><?php echo $watch_cat->description; ?></h4>
+					<?php endif; ?>
                     <ul class="nav nav-pills" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link rounded-pill active"
-                               id="webdesign-tab" data-toggle="tab"
-                               href="#webdesign" role="tab"
-                               aria-controls="webdesign"
-                               aria-selected="true">Webdesign</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link rounded-pill " id="mobileapp-tab"
-                               data-toggle="tab" href="#mobileapp"
-                               role="tab" aria-controls="mobileapp"
-                               aria-selected="false">Mobile app</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link rounded-pill" id="branding-tab"
-                               data-toggle="tab" href="#branding"
-                               role="tab" aria-controls="branding"
-                               aria-selected="false">Branding</a>
-                        </li>
+						<?php
+						$data = [];
+						$i    = 0;
+						foreach ( $posts as $post ):
+							setup_postdata( $post );
+							$data[ $i ]['post_name'] = $post->post_name;
+							$data[ $i ]['url']       = get_the_permalink();
+							$data[ $i ]['content']   = get_the_content( '' );
+							?>
+                            <li class="nav-item">
+                                <a class="nav-link rounded-pill <?php if ( ! $i ) {
+									echo 'active';
+								} ?>"
+                                   id="<?php echo $post->post_name; ?>-tab"
+                                   data-toggle="tab"
+                                   href="#<?php echo $post->post_name; ?>"
+                                   role="tab"
+                                   aria-controls="<?php echo $post->post_name; ?>"
+                                   aria-selected="true"><?php the_title(); ?></a>
+                            </li>
+							<?php
+							$i ++;
+						endforeach;
+						?>
+
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="webdesign"
-                             role="tabpanel"
-                             aria-labelledby="webdesign-tab">
-                            <p>Webdesign Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Pariatur obcaecati
-                                vero aliquid libero doloribus ad, unde tempora
-                                maiores, ullam, modi qui quidem minima
-                                debitis perferendis vitae cumque et quo
-                                impedit.</p>
-                            <p><a href="#" class="btn btn-pink btn-shadow">Read
-                                    more</a></p>
-                        </div>
-                        <div class="tab-pane fade" id="mobileapp"
-                             role="tabpanel" aria-labelledby="mobileapp-tab">
-                            <p>Mobile app Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit. Pariatur obcaecati
-                                vero aliquid libero doloribus ad, unde tempora
-                                maiores, ullam, modi qui quidem minima
-                                debitis perferendis vitae cumque et quo
-                                impedit.</p>
-                            <p><a href="#" class="btn btn-pink btn-shadow">Read
-                                    more</a></p>
-                        </div>
-                        <div class="tab-pane fade" id="branding" role="tabpanel"
-                             aria-labelledby="branding-tab">
-                            <p>Branding Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Pariatur obcaecati
-                                vero aliquid libero doloribus ad, unde tempora
-                                maiores, ullam, modi qui quidem minima
-                                debitis perferendis vitae cumque et quo
-                                impedit.</p>
-                            <p><a href="#" class="btn btn-pink btn-shadow">Read
-                                    more</a></p>
-                        </div>
+						<?php foreach (
+							$data
+
+							as $k => $item
+						): ?>
+                            <div class="tab-pane fade show <?php if ( ! $k ) {
+								echo 'active';
+							} ?>" id="<?php echo $item['post_name']; ?>"
+                                 role="tabpanel"
+                                 aria-labelledby="<?php echo $item['post_name']; ?>-tab">
+								<?php echo $item['content']; ?>
+                                <p><a href="<?php echo $item['url']; ?>"
+                                      class="btn btn-pink btn-shadow"><?php echo __( 'Read
+                                    more', 'bluerex' ); ?></a></p>
+                            </div>
+						<?php endforeach; ?>
                     </div>
+
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/watch.png"
-                         alt="">
+					<?php
+					$image = get_field( 'section_add_img', $watch_cat );
+					if ( $image ):?>
+                        <img src="<?php echo $image['url']; ?>"
+                             alt="<?php echo $image['alt']; ?>">
+					<?php endif; ?>
                 </div>
             </div>
         </div>
+        <?php
+        wp_reset_postdata();
+        unset($data, $posts);
+        ?>
     </section>
+<?php endif; ?>
 
     <section class="section-progress text-center">
         <div class="container">
@@ -79,9 +94,11 @@
                     <div><i class="fas fa-bullhorn"></i></div>
                     <div class="num">500+</div>
                     <h4><span>Successfully</span> completed projects</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Inventore aspernatur quas voluptatibus
-                        sed dolor optio architecto, praesentium ullam dolorum
+                        sed dolor optio architecto, praesentium ullam
+                        dolorum
                         alias soluta deserunt quod quidem quaerat
                         officiis ipsa quae, magnam esse?</p>
                 </div>
@@ -89,9 +106,11 @@
                     <div><i class="fas fa-bullhorn"></i></div>
                     <div class="num">254+</div>
                     <h4><span>Highly</span> specialised employees</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Inventore aspernatur quas voluptatibus
-                        sed dolor optio architecto, praesentium ullam dolorum
+                        sed dolor optio architecto, praesentium ullam
+                        dolorum
                         alias soluta deserunt quod quidem quaerat
                         officiis ipsa quae, magnam esse?</p>
                 </div>
@@ -99,9 +118,11 @@
                     <div><i class="fas fa-bullhorn"></i></div>
                     <div class="num">45+</div>
                     <h4><span>Awards</span> around the world</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Inventore aspernatur quas voluptatibus
-                        sed dolor optio architecto, praesentium ullam dolorum
+                        sed dolor optio architecto, praesentium ullam
+                        dolorum
                         alias soluta deserunt quod quidem quaerat
                         officiis ipsa quae, magnam esse?</p>
                 </div>
@@ -115,12 +136,14 @@
                 <div class="col-md-12">
                     <h3>Let's Grow Together</h3>
                     <h4>We turn creative ideas into your business</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Nihil ipsa voluptas delectus sed,
                         assumenda voluptates ab adipisci perspiciatis earum
                         magnam fugit quasi culpa, repellendus totam
                         in unde neque sapiente quod.</p>
-                    <p><a href="#" class="btn btn-pink btn-shadow">Read more</a>
+                    <p><a href="#" class="btn btn-pink btn-shadow">Read
+                            more</a>
                     </p>
                 </div>
             </div>
@@ -133,7 +156,8 @@
                 <div class="col-lg-6">
                     <h3>We are best and creative agency</h3>
                     <h4>We turn creative ideas into your business</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Aliquam ipsam, quas, illo laborum
                         molestias nihil dolore nobis quis, quam reiciendis
                         asperiores. Accusamus consequatur ipsum
@@ -144,11 +168,13 @@
                             <span><i class="far fa-comments"></i></span>
                             <h2>Graphic Design</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Aperiam harum vero asperiores
+                                adipisicing elit. Aperiam harum vero
+                                asperiores
                                 vitae, magnam et dolores repudiandae
                                 exercitationem voluptatibus veniam rerum
                                 voluptas
-                                architecto alias culpa tempore dolorem incidunt
+                                architecto alias culpa tempore dolorem
+                                incidunt
                                 quasi fuga.</p>
                             <p><a href="#" class="btn btn-pink btn-shadow">Read
                                     more</a></p>
@@ -157,11 +183,13 @@
                             <span><i class="fas fa-bullhorn"></i></span>
                             <h2>Graphic Design</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Aperiam harum vero asperiores
+                                adipisicing elit. Aperiam harum vero
+                                asperiores
                                 vitae, magnam et dolores repudiandae
                                 exercitationem voluptatibus veniam rerum
                                 voluptas
-                                architecto alias culpa tempore dolorem incidunt
+                                architecto alias culpa tempore dolorem
+                                incidunt
                                 quasi fuga.</p>
                             <p><a href="#" class="btn btn-pink btn-shadow">Read
                                     more</a></p>
@@ -170,7 +198,8 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="embed-responsive embed-responsive-16by9 mt-5">
-                        <iframe id="videoPlayer" class="embed-responsive-item"
+                        <iframe id="videoPlayer"
+                                class="embed-responsive-item"
                                 src="https://www.youtube.com/embed/LhFkgYXYU4g"
                                 allow="autoplay; encrypted-media"
                                 allowfullscreen></iframe>
@@ -187,11 +216,14 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2 text-center">
                     <h4>Our Recent Work</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Obcaecati ipsum cumque, sit earum
-                        quasi, nisi repudiandae perspiciatis culpa praesentium
+                        quasi, nisi repudiandae perspiciatis culpa
+                        praesentium
                         cupiditate, distinctio maiores mollitia.
-                        Similique quidem, harum aliquam consectetur qui ut.</p>
+                        Similique quidem, harum aliquam consectetur qui
+                        ut.</p>
                 </div>
                 <div class="col-md-12">
                     <ul class="nav nav-pills justify-content-center"
@@ -201,23 +233,26 @@
                                id="webdesign-tab2" data-toggle="tab"
                                href="#webdesign2" role="tab"
                                aria-controls="webdesign2"
-                               aria-selected="true">Webdesign</a>
+                               aria-selected="true">Web design</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link rounded-pill" id="mobileapp-tab2"
+                            <a class="nav-link rounded-pill"
+                               id="mobileapp-tab2"
                                data-toggle="tab" href="#mobileapp2"
                                role="tab" aria-controls="mobileapp2"
                                aria-selected="false">Mobile app</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link rounded-pill" id="branding-tab2"
+                            <a class="nav-link rounded-pill"
+                               id="branding-tab2"
                                data-toggle="tab" href="#branding2"
                                role="tab" aria-controls="branding2"
                                aria-selected="false">Branding</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="webdesign2"
+                        <div class="tab-pane fade show active"
+                             id="webdesign2"
                              role="tabpanel"
                              aria-labelledby="webdesign-tab2">
                             <div class="gallery text-center row">
@@ -278,7 +313,8 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="mobileapp2"
-                             role="tabpanel" aria-labelledby="mobileapp-tab2">
+                             role="tabpanel"
+                             aria-labelledby="mobileapp-tab2">
                             <div class="gallery text-center row">
                                 <div class="col-sm-4 gallery-item">
                                     <a href="img/gallery/4.jpg">
@@ -337,7 +373,8 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="branding2"
-                             role="tabpanel" aria-labelledby="branding-tab2">
+                             role="tabpanel"
+                             aria-labelledby="branding-tab2">
                             <div class="gallery text-center row">
                                 <div class="col-sm-4 gallery-item">
                                     <a href="img/gallery/7.jpg">
@@ -405,7 +442,8 @@
         <div id="carouselExampleIndicators" class="carousel slide"
              data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0"
+                <li data-target="#carouselExampleIndicators"
+                    data-slide-to="0"
                     class="active"></li>
                 <li data-target="#carouselExampleIndicators"
                     data-slide-to="1"></li>
@@ -421,11 +459,14 @@
                                     <h3>Our Happy Client</h3>
                                     <h4>Testimonials</h4>
                                     <blockquote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor sit
-                                            amet, consectetur adipiscing elit.
+                                        <p class="mb-0">Lorem ipsum dolor
+                                            sit
+                                            amet, consectetur adipiscing
+                                            elit.
                                             Integer
                                             posuere erat a ante.</p>
-                                        <footer class="blockquote-footer">Mr.
+                                        <footer class="blockquote-footer">
+                                            Mr.
                                             John Doe
                                         </footer>
                                     </blockquote>
@@ -446,11 +487,14 @@
                                     <h3>Our Happy Client</h3>
                                     <h4>Testimonials</h4>
                                     <blockquote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor sit
-                                            amet, consectetur adipiscing elit.
+                                        <p class="mb-0">Lorem ipsum dolor
+                                            sit
+                                            amet, consectetur adipiscing
+                                            elit.
                                             Integer
                                             posuere erat a ante.</p>
-                                        <footer class="blockquote-footer">Mr.
+                                        <footer class="blockquote-footer">
+                                            Mr.
                                             Jack
                                         </footer>
                                     </blockquote>
@@ -471,11 +515,14 @@
                                     <h3>Our Happy Client</h3>
                                     <h4>Testimonials</h4>
                                     <blockquote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor sit
-                                            amet, consectetur adipiscing elit.
+                                        <p class="mb-0">Lorem ipsum dolor
+                                            sit
+                                            amet, consectetur adipiscing
+                                            elit.
                                             Integer
                                             posuere erat a ante.</p>
-                                        <footer class="blockquote-footer">Mr.
+                                        <footer class="blockquote-footer">
+                                            Mr.
                                             David
                                         </footer>
                                     </blockquote>
@@ -489,13 +536,15 @@
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators"
+            <a class="carousel-control-prev"
+               href="#carouselExampleIndicators"
                role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon"
                       aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators"
+            <a class="carousel-control-next"
+               href="#carouselExampleIndicators"
                role="button" data-slide="next">
                 <span class="carousel-control-next-icon"
                       aria-hidden="true"></span>
@@ -510,7 +559,8 @@
                 <div class="col-md-12">
                     <h4>Need Help?</h4>
                     <h5>Don't Forget to Contact With Us</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit.
                         Sapiente iusto modi illo quasi maiores
                         iure expedita vel quo, magnam quia temporibus
                         consectetur unde, repellendus odit culpa rerum.
@@ -532,7 +582,8 @@
                             </div>
                             <div class="col-md-2 text-center text-md-left">
                                 <button type="submit"
-                                        class="btn btn-violet btn-shadow">Submit
+                                        class="btn btn-violet btn-shadow">
+                                    Submit
                                 </button>
                             </div>
                         </div>

@@ -6,7 +6,6 @@ body {
 
 img {
     max-width: 100%;
-    max-height: auto;
 }
 
 section {
@@ -117,8 +116,8 @@ h4 {
 
 /* =============================.section-watch============================== */
 .section-watch {
-    background: url(../img/world_map.png) center no-repeat;
-    background-size: cover;
+    /*background: url(../img/world_map.png) center no-repeat;*/
+    /*background-size: cover;*/
 }
 
 .section-watch h3,
@@ -319,12 +318,12 @@ h4 {
 }
 
 .btn-violet.btn-shadow {
-    box-shadow: 0 .5rem 0px #a57ee9;
+    box-shadow: 0 .5rem 0 #a57ee9;
 }
 
 .btn-violet.btn-shadow:hover {
     background: #3a2362;
-    box-shadow: 0 .3rem 0px #a57ee9;
+    box-shadow: 0 .3rem 0 #a57ee9;
 }
 
 .section-form .form-control {
@@ -509,7 +508,7 @@ h4 {
 
 .widget-categories ul li::before {
     content: '\f138';
-    font-family: 'Font Awesome 5 Free';
+    font-family: 'Font Awesome 5 Free', serif;
     font-weight: 900;
     color: #da1757;
     font-size: .9rem;
