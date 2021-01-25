@@ -49,16 +49,20 @@
             <div class="col-md-6 footer-images">
                 <div class="row">
                     <div class="col-6">
-                        <img src="<?php bloginfo('template_url'); ?>/assets/img/footer_img1.jpg" alt="">
+                        <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/footer_img1.jpg"
+                             alt="">
                     </div>
                     <div class="col-6">
-                        <img src="<?php bloginfo('template_url'); ?>/assets/img/footer_img1.jpg" alt="">
+                        <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/footer_img1.jpg"
+                             alt="">
                     </div>
                     <div class="col-6">
-                        <img src="<?php bloginfo('template_url'); ?>/assets/img/footer_img1.jpg" alt="">
+                        <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/footer_img1.jpg"
+                             alt="">
                     </div>
                     <div class="col-6">
-                        <img src="<?php bloginfo('template_url'); ?>/assets/img/footer_img1.jpg" alt="">
+                        <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/footer_img1.jpg"
+                             alt="">
                     </div>
                 </div>
             </div>
@@ -74,9 +78,12 @@
                     <li class="nav-item">
                         <span class="nav-link">&copy; 2021 Uladzimir</span>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link">Privacy</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Terms of Use</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Site Map</a></li>
+                    <li class="nav-item"><a href="#"
+                                            class="nav-link">Privacy</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Terms of
+                            Use</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Site
+                            Map</a></li>
                 </ul>
             </div>
         </div>
