@@ -31,7 +31,8 @@ if ( $watch_cat ):
 							setup_postdata( $post );
 							$data[ $i ]['post_name'] = $post->post_name;
 							$data[ $i ]['url']       = get_the_permalink();
-							$data[ $i ]['content']   = get_the_content( '' );
+							$data[ $i ]['content']
+							                         = esc_attr( wp_strip_all_tags( get_the_content( '' ) ) );
 							?>
                             <li class="nav-item">
                                 <a class="nav-link rounded-pill <?php if ( ! $i ) {
@@ -61,7 +62,7 @@ if ( $watch_cat ):
 							} ?>" id="<?php echo $item['post_name']; ?>"
                                  role="tabpanel"
                                  aria-labelledby="<?php echo $item['post_name']; ?>-tab">
-								<?php echo $item['content']; ?>
+                                <p><?php echo $item['content']; ?></p>
                                 <p><a href="<?php echo $item['url']; ?>"
                                       class="btn btn-pink btn-shadow"><?php echo __( 'Read
                                     more', 'bluerex' ); ?></a></p>
@@ -80,55 +81,35 @@ if ( $watch_cat ):
                 </div>
             </div>
         </div>
-        <?php
-        wp_reset_postdata();
-        unset($data, $posts);
-        ?>
+		<?php
+		wp_reset_postdata();
+		unset( $data, $posts );
+		?>
     </section>
 <?php endif; ?>
 
+<?php
+
+$posts = get_posts( [
+	'numberposts' => 3,
+	'category'    => 4,
+	'order'       => 'ASC',
+] );
+if ( $posts ):
+	?>
     <section class="section-progress text-center">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 progress-item">
-                    <div><i class="fas fa-bullhorn"></i></div>
-                    <div class="num">500+</div>
-                    <h4><span>Successfully</span> completed projects</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                        Inventore aspernatur quas voluptatibus
-                        sed dolor optio architecto, praesentium ullam
-                        dolorum
-                        alias soluta deserunt quod quidem quaerat
-                        officiis ipsa quae, magnam esse?</p>
-                </div>
-                <div class="col-md-4 progress-item">
-                    <div><i class="fas fa-bullhorn"></i></div>
-                    <div class="num">254+</div>
-                    <h4><span>Highly</span> specialised employees</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                        Inventore aspernatur quas voluptatibus
-                        sed dolor optio architecto, praesentium ullam
-                        dolorum
-                        alias soluta deserunt quod quidem quaerat
-                        officiis ipsa quae, magnam esse?</p>
-                </div>
-                <div class="col-md-4 progress-item">
-                    <div><i class="fas fa-bullhorn"></i></div>
-                    <div class="num">45+</div>
-                    <h4><span>Awards</span> around the world</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                        Inventore aspernatur quas voluptatibus
-                        sed dolor optio architecto, praesentium ullam
-                        dolorum
-                        alias soluta deserunt quod quidem quaerat
-                        officiis ipsa quae, magnam esse?</p>
-                </div>
+				<?php foreach ( $posts as $post ): ?>
+                    <div class="col-md-4 progress-item">
+						<?php echo $post->post_content; ?>
+                    </div>
+				<?php endforeach; ?>
             </div>
         </div>
+		<?php unset( $posts ); ?>
     </section>
+<?php endif; ?>
 
     <section class="section-lets text-center">
         <div class="container">
