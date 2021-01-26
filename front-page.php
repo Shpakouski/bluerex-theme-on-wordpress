@@ -138,66 +138,60 @@ if ( $lets_cat ):
     </section>
 <?php endif; ?>
 
+<?php
+$design_cat = get_category( 6 );
+if ( $design_cat ):
+	$posts = get_posts( [
+		'numberposts' => 2,
+		'category'    => $design_cat->term_id,
+		'order'       => 'ASC',
+	] );
+	?>
     <section class="section-design">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h3>We are best and creative agency</h3>
-                    <h4>We turn creative ideas into your business</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                        Aliquam ipsam, quas, illo laborum
-                        molestias nihil dolore nobis quis, quam reiciendis
-                        asperiores. Accusamus consequatur ipsum
-                        asperiores dolore perferendis, tempore ducimus
-                        blanditiis.</p>
+                    <h3><?php echo $design_cat->name; ?></h3>
+                    <h4><?php echo get_field( 'section_header',
+							$design_cat ); ?></h4>
+                    <p><?php echo $design_cat->description; ?></p>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <span><i class="far fa-comments"></i></span>
-                            <h2>Graphic Design</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Aperiam harum vero
-                                asperiores
-                                vitae, magnam et dolores repudiandae
-                                exercitationem voluptatibus veniam rerum
-                                voluptas
-                                architecto alias culpa tempore dolorem
-                                incidunt
-                                quasi fuga.</p>
-                            <p><a href="#" class="btn btn-pink btn-shadow">Read
-                                    more</a></p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <span><i class="fas fa-bullhorn"></i></span>
-                            <h2>Graphic Design</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Aperiam harum vero
-                                asperiores
-                                vitae, magnam et dolores repudiandae
-                                exercitationem voluptatibus veniam rerum
-                                voluptas
-                                architecto alias culpa tempore dolorem
-                                incidunt
-                                quasi fuga.</p>
-                            <p><a href="#" class="btn btn-pink btn-shadow">Read
-                                    more</a></p>
-                        </div>
+						<?php foreach ( $posts as $post ):
+							setup_postdata( $post );
+							?>
+                            <div class="col-md-6 mb-3">
+                                <span><?php the_field( 'icon' ); ?></span>
+                                <h2><?php the_title(); ?></h2>
+								<?php the_content( '' ); ?>
+                                <p><a href="<?php the_permalink(); ?>"
+                                      class="btn btn-pink btn-shadow"><?php echo __( 'Read
+                                    more', 'bluerex' ); ?></a></p>
+                            </div>
+						<?php endforeach; ?>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="embed-responsive embed-responsive-16by9 mt-5">
-                        <iframe id="videoPlayer"
-                                class="embed-responsive-item"
-                                src="https://www.youtube.com/embed/LhFkgYXYU4g"
-                                allow="autoplay; encrypted-media"
-                                allowfullscreen></iframe>
-                        <div id="videoPlayBtn"></div>
-                    </div>
+					<?php
+					$video = get_field( 'section_video', $design_cat );
+					if ( $video ):
+						$video = str_replace( 'youtu.be', 'youtube.com/embed',
+							$video );
+						?>
+                        <div class="embed-responsive embed-responsive-16by9 mt-5">
+                            <iframe id="videoPlayer"
+                                    class="embed-responsive-item"
+                                    src="<?php echo $video; ?>"
+                                    frameborder="0"
+                                    allow="autoplay; encrypted-media"
+                                    allowfullscreen></iframe>
+                            <div id="videoPlayBtn"></div>
+                        </div>
+					<?php endif; ?>
                 </div>
             </div>
         </div>
     </section>
-
+<?php endif; ?>
 
     <section class="section-work section-tabs">
         <div class="container">
