@@ -111,25 +111,32 @@ if ( $posts ):
     </section>
 <?php endif; ?>
 
-    <section class="section-lets text-center">
+<?php
+$lets_cat = get_category( 5 );
+if ( $lets_cat ):
+	?>
+    <section
+            class="section-lets text-center"<?php echo bluerex_get_background( 'section_bg',
+		$lets_cat ); ?>>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Let's Grow Together</h3>
-                    <h4>We turn creative ideas into your business</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                        Nihil ipsa voluptas delectus sed,
-                        assumenda voluptates ab adipisci perspiciatis earum
-                        magnam fugit quasi culpa, repellendus totam
-                        in unde neque sapiente quod.</p>
-                    <p><a href="#" class="btn btn-pink btn-shadow">Read
-                            more</a>
+                    <h3><?php echo $lets_cat->name; ?></h3>
+					<?php if ( get_field( 'section_header', $lets_cat ) ): ?>
+                        <h4><?php echo get_field( 'section_header',
+								$lets_cat ); ?></h4>
+					<?php endif; ?>
+                    <p><?php echo $lets_cat->description; ?></p>
+                    <p>
+                        <a href="<?php echo get_category_link( $lets_cat->term_id ); ?>"
+                           class="btn btn-pink btn-shadow"><?php echo __( 'Read
+                                    more', 'bluerex' ); ?></a>
                     </p>
                 </div>
             </div>
         </div>
     </section>
+<?php endif; ?>
 
     <section class="section-design">
         <div class="container">
