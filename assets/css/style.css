@@ -417,6 +417,11 @@ div.wpcf7-mail-sent-ok{
     content: '';
 }
 
+.gallery-item {
+    float: left;
+    max-width: 45%;
+    margin-right: 1.25rem;
+}
 
 /* ============================= scrollToTop btn ============================== */
 .scrollToTop {
@@ -625,6 +630,10 @@ div.wpcf7-mail-sent-ok{
     .section-reviews .blockquote::before {
         font-size: 6.25rem;
         top: -2.5rem;
+    }
+
+    .gallery-item {
+        margin-right: .63rem;
     }
 }
 
