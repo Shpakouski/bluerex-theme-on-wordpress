@@ -114,6 +114,13 @@ h4 {
     text-decoration: none;
 }
 
+.navbar-dark .navbar-nav .menu-item a {
+    color: rgba(255,255,255,.5);
+}
+.navbar-dark .navbar-nav .menu-item a:focus, .navbar-dark .navbar-nav .menu-item a:hover {
+    color: rgba(255,255,255,.75);
+}
+
 /* =============================.section-watch============================== */
 .section-watch {
     /*background: url(../img/world_map.png) center no-repeat;*/
@@ -582,6 +589,33 @@ div.wpcf7-mail-sent-ok{
     border-color: #da1757;
 }
 
+ul.page-numbers{
+    list-style: none;
+    display: flex;
+}
+ul.page-numbers a.page-numbers,
+ul.page-numbers span{
+    color: #da1757;
+    transition: all .5s;
+    padding: .5rem 1rem;
+    position: relative;
+    display: block;
+    margin-left: -1px;
+    line-height: 1.25;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+ul.page-numbers span.current{
+    background-color: #da1757;
+    border-color: #da1757;
+    color: #fff;
+}
+ul.page-numbers a.page-numbers:hover{
+    background-color: #f42267;
+    color: #fff;
+    border-color: #f42267;
+    text-decoration: none;
+}
 
 
 /* ============================= Media ============================== */

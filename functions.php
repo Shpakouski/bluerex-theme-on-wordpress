@@ -146,6 +146,17 @@ function bluerex_widgets_init() {
 			'after_title'   => '</h5>',
 		]
 	);
+	register_sidebar(
+		[
+			'name'          => esc_html__( 'Sidebar Widgets', 'bluerex' ),
+			'id'            => 'sidebar-widgets',
+			'description'   => esc_html__( 'Add widgets here.', 'bluerex' ),
+			'before_widget' => '<div id="%1$s" class="sidebar-widget widget-categories widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h5 class="widget-title">',
+			'after_title'   => '</h5>',
+		]
+	);
 }
 
 add_action( 'widgets_init', 'bluerex_widgets_init' );
@@ -223,31 +234,44 @@ function bluerex_get_background( $field, $cat = null, $cover = true ) {
 }
 
 
-add_action('init', 'bluerex_reviews');
-function bluerex_reviews(){
-	register_post_type('reviews', array(
-		'labels'             => array(
-			'name'               => 'Отзывы',
-			'singular_name'      => 'Отзыв',
-			'add_new'            => __('Добавить новый отзыв', 'bluerex'),
-			'add_new_item'       => __('Новый отзыв', 'bluerex'),
-			'edit_item'          => __('Редактировать', 'bluerex'),
-			'new_item'           => __('Новый отзыв', 'bluerex'),
-			'view_item'          => __('Посмотреть', 'bluerex'),
-			'menu_name'          => 'Отзывы клиентов',
-			'all_items'          => 'Все отзывы',
-		),
-		'public'             => true,
-		'supports'           => array('title','editor','thumbnail'),
-		'menu_icon'          => 'dashicons-universal-access',
+add_action( 'init', 'bluerex_reviews' );
+function bluerex_reviews() {
+	register_post_type( 'reviews', [
+		'labels'       => [
+			'name'          => 'Отзывы',
+			'singular_name' => 'Отзыв',
+			'add_new'       => __( 'Добавить новый отзыв', 'bluerex' ),
+			'add_new_item'  => __( 'Новый отзыв', 'bluerex' ),
+			'edit_item'     => __( 'Редактировать', 'bluerex' ),
+			'new_item'      => __( 'Новый отзыв', 'bluerex' ),
+			'view_item'     => __( 'Посмотреть', 'bluerex' ),
+			'menu_name'     => 'Отзывы клиентов',
+			'all_items'     => 'Все отзывы',
+		],
+		'public'       => true,
+		'supports'     => [ 'title', 'editor', 'thumbnail' ],
+		'menu_icon'    => 'dashicons-universal-access',
 		'show_in_rest' => true,
-	) );
+	] );
 }
 
-function exclude_widget_categories($args){
-	$exclude = "1";
+function exclude_widget_categories( $args ) {
+	$exclude         = "1";
 	$args["exclude"] = $exclude;
+
 	return $args;
 }
-add_filter("widget_categories_args","exclude_widget_categories");
 
+add_filter( "widget_categories_args", "exclude_widget_categories" );
+
+
+add_filter( 'navigation_markup_template', 'bluerex_navigation_template', 10,
+	2 );
+
+function bluerex_navigation_template( $template, $class ) {
+	return '
+	<nav class="navigation %1$s" role="navigation">
+		<div class="nav-links">%3$s</div>
+	</nav>    
+	';
+}
