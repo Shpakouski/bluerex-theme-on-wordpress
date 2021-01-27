@@ -345,6 +345,17 @@ h4 {
     box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
 }
 
+div.wpcf7 .ajax-loader{
+    background-image: url('../img/ajax-loader.svg');
+    width: 2rem;
+    height: 2rem;
+}
+span.wpcf7-not-valid-tip{
+    background-color: #ccc;
+}
+div.wpcf7-mail-sent-ok{
+    border: 2px solid #8EE47C;
+}
 
 /* =============================.footer============================== */
 .footer {

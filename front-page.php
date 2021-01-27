@@ -335,44 +335,16 @@ if ( $posts ):
     </section>
 <?php endif; ?>
 
+<?php $contact = get_page_by_title( 'Contact' );
+if ( $contact ):?>
     <section class="section-form text-center">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h4>Need Help?</h4>
-                    <h5>Don't Forget to Contact With Us</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit.
-                        Sapiente iusto modi illo quasi maiores
-                        iure expedita vel quo, magnam quia temporibus
-                        consectetur unde, repellendus odit culpa rerum.
-                        Suscipit, nihil, provident!</p>
-
-                    <form class="text-left">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label>
-                                    <input type="text" class="form-control"
-                                           placeholder="Name">
-                                </label>
-                            </div>
-                            <div class="col-md-5">
-                                <label>
-                                    <input type="email" class="form-control"
-                                           placeholder="Email">
-                                </label>
-                            </div>
-                            <div class="col-md-2 text-center text-md-left">
-                                <button type="submit"
-                                        class="btn btn-violet btn-shadow">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+					<?php echo do_shortcode( $contact->post_content ); ?>
                 </div>
             </div>
         </div>
     </section>
-
+<?php endif; ?>
 <?php get_footer(); ?>
