@@ -267,103 +267,55 @@ if ( $work_cat ):
     </section>
 <?php endif; ?>
 
+<?php
+
+$posts = get_posts( [
+	'post_type' => 'reviews',
+	'order'     => 'ASC',
+] );
+if ( $posts ):
+	?>
     <section class="section-reviews">
         <div id="carouselExampleIndicators" class="carousel slide"
              data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators"
-                    data-slide-to="0"
-                    class="active"></li>
-                <li data-target="#carouselExampleIndicators"
-                    data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators"
-                    data-slide-to="2"></li>
+				<?php for ( $i = 0; $i < count( $posts ); $i ++ ): ?>
+                    <li data-target="#carouselExampleIndicators"
+                        data-slide-to="<?php echo $i; ?>"
+						<?php if ( ! $i ) {
+							echo 'class="active"';
+						} ?>></li>
+				<?php endfor; ?>
             </ol>
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <div class="carousel-caption">
-                                    <h3>Our Happy Client</h3>
-                                    <h4>Testimonials</h4>
-                                    <blockquote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor
-                                            sit
-                                            amet, consectetur adipiscing
-                                            elit.
-                                            Integer
-                                            posuere erat a ante.</p>
-                                        <footer class="blockquote-footer">
-                                            Mr.
-                                            John Doe
-                                        </footer>
-                                    </blockquote>
+				<?php $i = 0;
+				foreach ( $posts as $post ): ?>
+                    <div class="carousel-item <?php if ( ! $i ) {
+						echo 'active';
+					} ?>">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="carousel-caption">
+                                        <h3><?php echo $post->post_title; ?></h3>
+                                        <h4><?php the_field( 'review_header' ); ?></h4>
+                                        <blockquote class="blockquote">
+                                            <p class="mb-0"><?php echo $post->post_content; ?></p>
+                                            <footer class="blockquote-footer">
+												<?php the_field( 'review_author' ); ?>
+                                            </footer>
+                                        </blockquote>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-5 d-none d-sm-block">
-                                <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/client.png"
-                                     alt="">
+                                <div class="col-sm-5 d-none d-sm-block">
+									<?php if ( has_post_thumbnail( $post->ID ) ): ?>
+										<?php echo get_the_post_thumbnail( $post->ID ); ?>
+									<?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <div class="carousel-caption">
-                                    <h3>Our Happy Client</h3>
-                                    <h4>Testimonials</h4>
-                                    <blockquote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor
-                                            sit
-                                            amet, consectetur adipiscing
-                                            elit.
-                                            Integer
-                                            posuere erat a ante.</p>
-                                        <footer class="blockquote-footer">
-                                            Mr.
-                                            Jack
-                                        </footer>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <div class="col-sm-5 d-none d-sm-block">
-                                <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/client.png"
-                                     alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <div class="carousel-caption">
-                                    <h3>Our Happy Client</h3>
-                                    <h4>Testimonials</h4>
-                                    <blockquote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor
-                                            sit
-                                            amet, consectetur adipiscing
-                                            elit.
-                                            Integer
-                                            posuere erat a ante.</p>
-                                        <footer class="blockquote-footer">
-                                            Mr.
-                                            David
-                                        </footer>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <div class="col-sm-5 d-none d-sm-block">
-                                <img src="<?php bloginfo( 'template_url' ); ?>/assets/img/client.png"
-                                     alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+					<?php $i ++;endforeach; ?>
             </div>
             <a class="carousel-control-prev"
                href="#carouselExampleIndicators"
@@ -381,6 +333,7 @@ if ( $work_cat ):
             </a>
         </div>
     </section>
+<?php endif; ?>
 
     <section class="section-form text-center">
         <div class="container">
